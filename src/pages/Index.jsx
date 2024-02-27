@@ -12,11 +12,12 @@ const Index = () => {
 
   const calculateFare = () => {
     // Define tariffs
+    const yardsPerUnit = 168; // 168 yards per £0.20
     const tariffs = {
-      1: { name: "Tariff 1", startFee: 3.0, distanceRate: 0.2 },
-      2: { name: "Tariff 2", startFee: 3.5, distanceRate: 0.2 },
-      3: { name: "Tariff 3", startFee: 4.0, distanceRate: 0.2 },
-      4: { name: "Tariff 4", startFee: 5.0, distanceRate: 0.2 },
+      1: { name: "Tariff 1", startFee: 3.0, distanceRate: 0.2 / yardsPerUnit },
+      2: { name: "Tariff 2", startFee: 3.5, distanceRate: 0.2 / yardsPerUnit },
+      3: { name: "Tariff 3", startFee: 4.0, distanceRate: 0.2 / yardsPerUnit },
+      4: { name: "Tariff 4", startFee: 5.0, distanceRate: 0.2 / yardsPerUnit },
     };
 
     // Convert yards to miles for calculation
