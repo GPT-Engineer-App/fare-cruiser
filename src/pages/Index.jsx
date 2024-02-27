@@ -5,6 +5,7 @@ const Index = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [distance, setDistance] = useState(0);
+  const [distanceUnit, setDistanceUnit] = useState("yards");
   const [tariff, setTariff] = useState("");
   const [fare, setFare] = useState(null);
   const toast = useToast();
@@ -49,7 +50,8 @@ const Index = () => {
   };
 
   const handleDistanceChange = (value) => {
-    setDistance(parseFloat(value));
+    const numberValue = parseFloat(value);
+    setDistance(distanceUnit === "miles" ? numberValue * 1760 : numberValue);
   };
 
   const handleSubmit = (e) => {
@@ -68,8 +70,15 @@ const Index = () => {
           <FormLabel htmlFor="time">Time of Journey</FormLabel>
           <Input id="time" type="time" onChange={handleTimeChange} value={time} />
         </FormControl>
-        <FormControl isRequired>
-          <FormLabel htmlFor="distance">Distance (in yards)</FormLabel>
+        <FormControl as="fieldset" isRequired>
+          <FormLabel as="legend">Distance</FormLabel>
+          <RadioGroup onChange={setDistanceUnit} value={distanceUnit}>
+            <Stack spacing={5} direction="row">
+              <Radio value="yards">Yards</Radio>
+              <Radio value="miles">Miles</Radio>
+            </Stack>
+          </RadioGroup>
+          <FormLabel htmlFor="distance">Distance ({distanceUnit})</FormLabel>
           <NumberInput min={0} onChange={handleDistanceChange}>
             <NumberInputField id="distance" />
           </NumberInput>
