@@ -11,12 +11,11 @@ const Index = () => {
   const toast = useToast();
 
   // Define tariffs
-  const yardsPerUnit = 168; // 168 yards per £0.20
   const tariffs = {
-    1: { name: "Tariff 1", startFee: 3.0, distanceRate: 0.2 / yardsPerUnit },
-    2: { name: "Tariff 2", startFee: 3.5, distanceRate: 0.2 / yardsPerUnit },
-    3: { name: "Tariff 3", startFee: 4.0, distanceRate: 0.2 / yardsPerUnit },
-    4: { name: "Tariff 4", startFee: 5.0, distanceRate: 0.2 / yardsPerUnit },
+    1: { name: "Tariff 1", startFee: 2.6, yardsPerUnit: 168, distanceRate: 0.2 / 168 },
+    2: { name: "Tariff 2", startFee: 2.6, yardsPerUnit: 130, distanceRate: 0.2 / 130 },
+    3: { name: "Tariff 3", startFee: 3.2, yardsPerUnit: 130, distanceRate: 0.2 / 130 },
+    4: { name: "Tariff 4", startFee: 5.2, yardsPerUnit: 130, distanceRate: 0.2 / 130 },
   };
 
   const calculateFare = () => {
@@ -27,7 +26,8 @@ const Index = () => {
     // Calculate fare
     const selectedTariff = tariffs[tariff];
     if (selectedTariff) {
-      const totalFare = selectedTariff.startFee + distanceInMiles * selectedTariff.distanceRate;
+      const totalUnits = Math.ceil(distance / selectedTariff.yardsPerUnit);
+      const totalFare = selectedTariff.startFee + (totalUnits - 1) * selectedTariff.distanceRate;
       setFare(totalFare.toFixed(2));
     } else {
       toast({
@@ -101,7 +101,7 @@ const Index = () => {
         {fare && (
           <VStack spacing={2}>
             <Text fontSize="xl">Total Fare: £{fare}</Text>
-            <Text fontSize="md">Cost per mile: £{(tariffs[tariff].distanceRate * 1760).toFixed(2)}</Text>
+            <Text fontSize="md">Cost per mile: £{((tariffs[tariff]?.distanceRate * tariffs[tariff]?.yardsPerUnit) / 1760).toFixed(2)}</Text>
           </VStack>
         )}
       </VStack>
