@@ -10,16 +10,16 @@ const Index = () => {
   const [fare, setFare] = useState(null);
   const toast = useToast();
 
-  const calculateFare = () => {
-    // Define tariffs
-    const yardsPerUnit = 168; // 168 yards per £0.20
-    const tariffs = {
-      1: { name: "Tariff 1", startFee: 3.0, distanceRate: 0.2 / yardsPerUnit },
-      2: { name: "Tariff 2", startFee: 3.5, distanceRate: 0.2 / yardsPerUnit },
-      3: { name: "Tariff 3", startFee: 4.0, distanceRate: 0.2 / yardsPerUnit },
-      4: { name: "Tariff 4", startFee: 5.0, distanceRate: 0.2 / yardsPerUnit },
-    };
+  // Define tariffs
+  const yardsPerUnit = 168; // 168 yards per £0.20
+  const tariffs = {
+    1: { name: "Tariff 1", startFee: 3.0, distanceRate: 0.2 / yardsPerUnit },
+    2: { name: "Tariff 2", startFee: 3.5, distanceRate: 0.2 / yardsPerUnit },
+    3: { name: "Tariff 3", startFee: 4.0, distanceRate: 0.2 / yardsPerUnit },
+    4: { name: "Tariff 4", startFee: 5.0, distanceRate: 0.2 / yardsPerUnit },
+  };
 
+  const calculateFare = () => {
     // Convert yards to miles for calculation
     const yardsPerMile = 1760;
     const distanceInMiles = distance / yardsPerMile;
@@ -99,9 +99,10 @@ const Index = () => {
           Calculate Fare
         </Button>
         {fare && (
-          <Box>
+          <VStack spacing={2}>
             <Text fontSize="xl">Total Fare: £{fare}</Text>
-          </Box>
+            <Text fontSize="md">Cost per mile: £{(tariffs[tariff].distanceRate * 1760).toFixed(2)}</Text>
+          </VStack>
         )}
       </VStack>
     </Container>
