@@ -40,14 +40,38 @@ const Index = () => {
     }
   };
 
+  const getTariffByDateTime = (dateString, timeString) => {
+    const date = new Date(dateString + "T" + timeString);
+    const dayOfWeek = date.getDay();
+    const hour = date.getHours();
+    const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 5;
+    const isBankHoliday = false; // You would need to replace this with actual bank holiday logic
+
+    if (isWeekday && hour >= 6 && hour < 20) {
+      return "1";
+    } else if ((isWeekday && hour >= 21 && hour < 24) || dayOfWeek === 0 || dayOfWeek === 6 || isBankHoliday) {
+      return "2";
+    } else if (hour >= 0 && hour < 6) {
+      return "3";
+    }
+
+    // Add special dates logic for Tariff 4 here
+
+    return ""; // Default case, no tariff found
+  };
+
   const handleDateChange = (e) => {
-    setDate(e.target.value);
-    // TODO: Determine the tariff based on the provided date and time
+    const newDate = e.target.value;
+    setDate(newDate);
+    const determinedTariff = getTariffByDateTime(newDate, time);
+    setTariff(determinedTariff);
   };
 
   const handleTimeChange = (e) => {
-    setTime(e.target.value);
-    // TODO: Determine the tariff based on the provided date and time
+    const newTime = e.target.value;
+    setTime(newTime);
+    const determinedTariff = getTariffByDateTime(date, newTime);
+    setTariff(determinedTariff);
   };
 
   const handleDistanceChange = (value) => {
